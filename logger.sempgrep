@@ -1,0 +1,20 @@
+rules:
+- id: structured-logging
+  patterns:
+  - pattern-either:
+      # Serilog
+    - pattern: $LOG.Debug($"...")
+    - pattern: $LOG.Error($"...")
+    - pattern: $LOG.Information($"...")
+    - pattern: $LOG.Warning($"...")
+    - pattern: $LOG.Trace($"...")
+  - metavariable-regex:
+      metavariable: $LOG
+      regex: .*(log|LOG|Log)
+  message: >-
+    String interpolation in log message obscures the distinction between
+    variables and the log message. Use structured logging instead, where the
+    variables are passed as additional arguments and the interpolation is performed
+    by the logging library.
+  languages: [csharp]
+  severity: INFO
